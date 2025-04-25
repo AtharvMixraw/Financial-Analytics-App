@@ -262,7 +262,15 @@ const ChartComponent = () => {
 
     const options = {
       responsive: true,
-      maintainAspectRatio: true,
+      maintainAspectRatio: false, // Change this to false
+      layout: {
+        padding: {
+          left: 10,
+          right: 10,
+          top: 10,
+          bottom: 10
+        }
+      },
       plugins: {
         legend: {
           position: "top",
@@ -308,7 +316,11 @@ const ChartComponent = () => {
     };
 
     const ChartComponent = charts[chartType];
-    return <ChartComponent data={chartData[chartType]} options={options} />;
+    return (
+      <div className="w-full h-[400px]"> {/* Add a fixed height container */}
+        <ChartComponent data={chartData[chartType]} options={options} />
+      </div>
+    );
   };
 
   return (
@@ -397,6 +409,7 @@ const ChartComponent = () => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
+              className="h-full" // Ensure full height
             >
               {renderChart()}
             </motion.div>
