@@ -3,6 +3,7 @@ from flask import Blueprint, request, jsonify
 from werkzeug.utils import secure_filename
 from data_processing.process_csv import process_csv
 from data_processing.process_csv import validate_csv
+from chatbot.chatbot_engine import get_chatbot_response
 
 last_uploaded_file = None
 
@@ -51,3 +52,16 @@ def get_data():
 
     data, status_code = process_csv(last_uploaded_file)
     return jsonify(data), status_code
+
+@upload_bp.route("/api/chat", methods=["POST"])
+def chat():
+    user_input = request.json.get("message")
+    if not user_input:
+        return jsonify({"error": "No message sent."}), 400
+    
+    try:
+        filepath = "uploads/latest.csv"  # or wherever your processed file is stored
+        answer = get_chatbot_response(user_input, filepath)
+        return jsonify({"response": answer}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500

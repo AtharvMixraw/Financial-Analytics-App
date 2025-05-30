@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { Bar } from 'react-chartjs-2';
 import { FileSpreadsheet, PieChart, Filter, Download } from 'lucide-react';
+import ChartComponent from './ChartComponent';
 
 const sampleData = {
   labels: ["Food", "Transport", "Entertainment", "Utilities", "Shopping"],
@@ -108,7 +109,18 @@ const VisualizationSection = () => {
             ))}
           </div>
         </motion.div>
+      </div>{/* Chatbot Floating Button */}
+      <div className="fixed bottom-8 right-8 z-10">
+        <button
+          className="p-4 bg-blue-500 text-white rounded-full shadow-lg hover:bg-blue-600 transition-all"
+          onClick={() => setShowChatbot(!showChatbot)} // Toggle visibility
+        >
+          <span className="material-icons">chat</span> {/* You can use any icon you like here */}
+        </button>
       </div>
+
+      {/* Conditionally render the Chatbot component */}
+      {showChatbot && <ChatBotComponent />}
     </div>
   );
 };
